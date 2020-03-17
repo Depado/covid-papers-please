@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coronatestation</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+    <style>
+        body {
+            padding-top: 5em;
+            font-size: calc(8px + (26 - 8) * ((100vw - 300px) / (1600 - 300)));
+            line-height: calc(0.9em + (1.5 - 0.9) * ((100vw - 300px)/(1600 - 300)));
+        }
+
+        h4 {
+            font-size: calc(10px + (26 - 10) * ((100vw - 300px) / (1600 - 300)));
+            line-height: calc(1.1em + (1.5 - 1.1) * ((100vw - 300px)/(1600 - 300)));
+        }
+
+        .offset {
+            padding-left: 4em;
+            padding-right: 4em;
+            padding-top: 1em;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        div.offset div.container div.columns {
+            padding-bottom: 1em;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .container {
+            font-size: calc(8px + (26 - 8) * ((100vw - 300px) / (1600 - 300)));
+            line-height: calc(1.1em + (1.5 - 1.1) * ((100vw - 300px)/(1600 - 300)));
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center">
+        <h4><b>ATTESTATION DE DÉPLACEMENT DÉROGATOIRE</b></h4>
+        <p>En application de l’article 1 er du décret du 16 mars 2020 portant réglementation des<br />
+            déplacements dans le cadre de la lutte contre la propagation du virus Covid-19 :</p>
+    </div>
+    <div class="offset">
+        <div class="container">
+            <p>Je soussigné(e)</p>
+            <div class="columns">
+                <div class="column col-3 col-mr-auto">Mme / M.</div>
+                <div class="column field">
+                    <span id="name-res" style="display: none;"></span>
+                    <input class="form-input" type="text" id="name-input" placeholder="NOM Prénom">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column col-3 col-mr-auto">Né(e) le :</div>
+                <div class="column field" id="birthdate">
+                    <span id="birthdate-res" style="display: none;"></span>
+                    <input class="form-input" type="text" id="birthdate-input" placeholder="JJ/MM/AAAA">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column col-3 col-mr-auto">Demeurant :</div>
+                <div class="column field">
+                    <span id="address-res" style="display: none; white-space: pre-line;"></span>
+                    <textarea class="form-input" id="address-input" placeholder="Addresse complète" rows="2"></textarea>
+                </div>
+            </div>
+            <p class="justify">
+                certifie que mon déplacement est lié au motif suivant (cocher la case) autorisé par
+                l’article 1 er du décret du 16 mars 2020 portant réglementation des déplacements dans
+                le cadre de la lutte contre la propagation du virus Covid-19 :
+            </p>
+            <div class="columns justify">
+                <div class="column col-1 col-mr-auto" id="work">
+                    <input type="radio" value="work" name="reason" checked></div>
+                <div class="column">
+                    déplacements entre le domicile et le lieu d’exercice de l’activité professionnelle,
+                    lorsqu’ils sont indispensables à l’exercice d’activités ne pouvant être organisées
+                    sous forme de télétravail (sur justificatif permanent) ou déplacements
+                    professionnels ne pouvant être différés ;
+                </div>
+            </div>
+            <div class="columns justify">
+                <div class="column col-1 col-mr-auto" id="move">
+                    <input type="radio" value="move" name="reason"></div>
+                <div class="column">
+                    déplacements pour effectuer des achats de première nécessité dans des établissements autorisés
+                    (liste sur gouvernement.fr) ;
+                </div>
+            </div>
+            <div class="columns justify">
+                <div class="column col-1 col-mr-auto" id="health">
+                    <input type="radio" value="health" name="reason">
+                </div>
+                <div class="column">
+                    déplacements pour motif de santé ;
+                </div>
+            </div>
+            <div class="columns justify">
+                <div class="column col-1 col-mr-auto" id="family">
+                    <input type="radio" value="family" name="reason">
+                </div>
+                <div class="column">
+                    déplacements pour motif familial impérieux, pour l’assistance aux personnes
+                    vulnérables ou la garde d’enfants ;
+                </div>
+            </div>
+            <div class="columns justify">
+                <div class="column col-1 col-mr-auto" id="pet">
+                    <input type="radio" value="pet" id="pet-radio" name="reason"></div>
+                <div class="column">
+                    déplacements brefs, à proximité du domicile, liés à l’activité physique individuelle
+                    des personnes, à l’exclusion de toute pratique sportive collective, et aux besoins
+                    des animaux de compagnie.
+                </div>
+            </div>
+
+            <div style="text-align: right; padding-top: 2em;">
+                <p>Fait à <input class="form-input" type="text" id="place-input" style="display: inline-block"><span
+                        id="place-res" style="display: none"></span>, le <span
+                        id="date"></span><br /><span>(Signature)</span></p>
+                <canvas id="sign" width="400" height="200" style="border:2px dotted black"></canvas><br />
+            </div>
+
+        </div>
+        <div id="controls" style="text-align: center; padding-top: 2em;">
+            <p>Une fois enregistré, ces boutons disparaîtrons. Repassez en mode édition en cliquant sur votre signature.
+            </p>
+            <button id="clear" class="btn btn-primary" onclick="clearCanvas()">Effacer Signature</button>
+            <button class="btn btn-primary" onclick="saveRender()">Sauvegarder</button>
+        </div>
+
+        <script>
+            var today = new Date();
+            document.getElementById("date").innerHTML = today.toLocaleDateString("fr-FR");
+            var selected = 'work';
+            var canvas = document.getElementById('sign');
+            var sp = new SignaturePad(canvas);
+
+            function clearCanvas() {
+                sp.clear();
+            }
+
+            var controls = document.getElementById("controls");
+
+            var nameInput = document.getElementById("name-input");
+            var nameRes = document.getElementById("name-res");
+            var birthdateInput = document.getElementById("birthdate-input");
+            var birthdateRes = document.getElementById("birthdate-res");
+            var addressInput = document.getElementById("address-input");
+            var addressRes = document.getElementById("address-res");
+            var placeInput = document.getElementById("place-input");
+            var placeRes = document.getElementById("place-res");
+
+            function restoreFieldFromStorage(name, inline) {
+                let val = localStorage.getItem(name);
+                let input = document.getElementById(name + '-input');
+                let res = document.getElementById(name + '-res');
+
+                input.value = val;
+                input.style.display = 'none';
+                res.innerHTML = val;
+                if (inline) {
+                    res.style.display = 'inline-block';
+                } else {
+                    res.style.display = 'block';
+                }
+            }
+
+            function saveFieldInStorage(name, inline) {
+                let input = document.getElementById(name + '-input');
+                let res = document.getElementById(name + '-res');
+
+                res.innerHTML = input.value;
+                if (inline) {
+                    res.style.display = 'inline-block';
+                } else {
+                    res.style.display = 'block';
+                }
+                input.style.display = 'none';
+                localStorage.setItem(name, input.value);
+            }
+
+            function canvasEditMode() {
+                sp.on();
+                canvas.style.border = "2px dotted black";
+                controls.style.display = "block";
+                localStorage.setItem("rendered", false);
+            }
+
+            function canvasLockMode(save) {
+                if (save) {
+                    localStorage.setItem("sig", sp.toDataURL());
+                }
+                canvas.style.border = "none";
+                canvas.addEventListener("click", edit);
+                sp.off();
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                if (localStorage.getItem("rendered") === "true") {
+                    sp.fromDataURL(localStorage.getItem("sig"), {
+                        ratio: 1
+                    });
+
+                    restoreFieldFromStorage('name', false);
+                    restoreFieldFromStorage('birthdate', false);
+                    restoreFieldFromStorage('address', false);
+                    restoreFieldFromStorage('place', true);
+                    selected = localStorage.getItem('selected');
+                    document.getElementById("work").innerHTML = '<input type="checkbox"' + (selected ===
+                        'work' ? 'checked' : '') + ' disabled>';
+                    document.getElementById("move").innerHTML = '<input type="checkbox"' + (selected ===
+                        'move' ? 'checked' : '') + ' disabled>';
+                    document.getElementById("health").innerHTML = '<input type="checkbox"' + (selected ===
+                        'health' ? 'checked' : '') + ' disabled>';
+                    document.getElementById("family").innerHTML = '<input type="checkbox"' + (selected ===
+                        'family' ? 'checked' : '') + ' disabled>';
+                    document.getElementById("pet").innerHTML = '<input type="checkbox"' + (selected === 'pet' ?
+                        'checked' : '') + ' disabled>';
+
+                    controls.style.display = "none";
+                    canvasLockMode();
+                }
+            }, false);
+
+
+            function edit() {
+                document.getElementById("work").innerHTML = '<input type="radio" value="work" name="reason" ' + (
+                    selected === 'work' ? 'checked' : '') + '>'
+                document.getElementById("move").innerHTML = '<input type="radio" value="move" name="reason" ' + (
+                    selected === 'move' ? 'checked' : '') + '>';
+                document.getElementById("health").innerHTML = '<input type="radio" value="health" name="reason" ' + (
+                    selected === 'health' ? 'checked' : '') + '>';
+                document.getElementById("family").innerHTML = '<input type="radio" value="family" name="reason" ' + (
+                    selected === 'family' ? 'checked' : '') + '>';
+                document.getElementById("pet").innerHTML = '<input type="radio" value="pet" name="reason" ' + (
+                    selected === 'pet' ? 'checked' : '') + '>';
+                nameRes.style.display = "none";
+                nameInput.style.display = "block";
+                birthdateRes.style.display = "none";
+                birthdateInput.style.display = "block";
+                addressRes.style.display = "none";
+                addressInput.style.display = "block";
+                placeRes.style.display = "none";
+                placeInput.style.display = "inline-block";
+                canvasEditMode()
+            }
+
+            function saveRender() {
+                localStorage.setItem('rendered', true);
+
+                saveFieldInStorage('name', false);
+                saveFieldInStorage('birthdate', false);
+                saveFieldInStorage('address', false);
+                saveFieldInStorage('place', true);
+
+                let qs = document.querySelector('input[name="reason"]:checked');
+                if (qs != null) {
+                    selected = qs.value;
+                    localStorage.setItem('selected', selected);
+                } else {
+                    console.log("qs is null");
+                }
+
+
+                document.getElementById("work").innerHTML = '<input type="checkbox"' + (selected ===
+                    'work' ? 'checked' : '') + ' disabled>';
+                document.getElementById("move").innerHTML = '<input type="checkbox"' + (selected ===
+                    'move' ? 'checked' : '') + ' disabled>';
+                document.getElementById("health").innerHTML = '<input type="checkbox"' + (selected ===
+                    'health' ? 'checked' : '') + ' disabled>';
+                document.getElementById("family").innerHTML = '<input type="checkbox"' + (selected ===
+                    'family' ? 'checked' : '') + ' disabled>';
+                document.getElementById("pet").innerHTML = '<input type="checkbox"' + (selected === 'pet' ?
+                    'checked' : '') + ' disabled>';
+
+
+                controls.style.display = "none";
+                canvasLockMode(true);
+            }
+        </script>
+</body>
+
+</html>
