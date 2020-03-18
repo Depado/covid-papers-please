@@ -141,6 +141,7 @@
             </p>
             <button id="clear" class="btn btn-primary" onclick="clearCanvas()">Effacer Signature</button>
             <button class="btn btn-primary" onclick="saveRender()">Sauvegarder</button>
+            <button class="btn btn-primary" onclick="savePrint()">Générer</button>
         </div>
 
         <script>
@@ -291,6 +292,11 @@
 
                 controls.style.display = "none";
                 canvasLockMode(true);
+            }
+
+            function savePrint() {
+                saveRender();
+                window.print();
             }
         </script>
 </body>
